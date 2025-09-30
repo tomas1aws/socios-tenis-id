@@ -3,12 +3,15 @@ kind: Service
 metadata:
   name: socios-tenis-service
   namespace: socios-tenis
+  labels:
+    app: socios-tenis
 spec:
   type: NodePort   # <--- así podés acceder desde el navegador con minikube service
   selector:
     app: socios-tenis
   ports:
     - protocol: TCP
+      name: http
       port: 8000
       targetPort: 8000
       nodePort: 30080   # lo fijamos para que siempre sea http://localhost:30080

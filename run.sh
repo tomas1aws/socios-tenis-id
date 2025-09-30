@@ -20,6 +20,20 @@ case $1 in
     kubectl apply -f k8s/namespace.yaml
     kubectl apply -f k8s/deployment.yaml
     kubectl apply -f k8s/service.yaml
+    kubectl apply -f k8s/servicemonitor.yaml
+    ;;
+
+  monitoring-up)
+    echo "📈 Instalando kube-prometheus-stack (Prometheus + Grafana)..."
+    helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+    helm repo update
+    helm upgrade --install kube-prometheus-stack prometheus-community/kube-prometheus-stack \
+      --namespace monitoring --create-namespace
+    ;;
+
+  monitoring-down)
+    echo "🧹 Eliminando kube-prometheus-stack..."
+    helm uninstall kube-prometheus-stack -n monitoring || true
     ;;
 
   urls)
@@ -31,11 +45,12 @@ case $1 in
     echo "🛑 Apagando todo..."
     kubectl delete -f k8s/service.yaml || true
     kubectl delete -f k8s/deployment.yaml || true
+    kubectl delete -f k8s/servicemonitor.yaml || true
     kubectl delete -f k8s/namespace.yaml || true
     minikube stop
     ;;
-    
+
   *)
-    echo "Uso: ./run.sh {build-push|mk-up|mk-deploy|urls|down}"
+    echo "Uso: ./run.sh {build-push|mk-up|mk-deploy|monitoring-up|monitoring-down|urls|down}"
     ;;
 esac
