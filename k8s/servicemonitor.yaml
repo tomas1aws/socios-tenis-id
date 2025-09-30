@@ -4,7 +4,7 @@ metadata:
   name: socios-tenis-monitor
   namespace: socios-tenis   # 👈 Ahora en el mismo namespace que tu app
   labels:
-    release: kube-prometheus
+    release: kube-prometheus-stack
 spec:
   selector:
     matchLabels:
