@@ -44,7 +44,11 @@ Este proyecto contiene una API en FastAPI que expone métricas Prometheus median
      ```bash
      kubectl port-forward svc/kube-prometheus-stack-grafana -n monitoring 3000:80
      ```
-     Luego abre http://localhost:3000 (usuario `admin`, contraseña obtenida con `kubectl get secret kube-prometheus-stack-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 --decode`).
+     Mantén el comando anterior en ejecución (abre un túnel desde tu máquina hacia el `Service` dentro del clúster) y luego abre http://localhost:3000. El usuario por defecto es `admin` y la contraseña puedes obtenerla con:
+     ```bash
+     kubectl get secret kube-prometheus-stack-grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 --decode
+     ```
+     > ℹ️ Si no puedes acceder a Grafana en el puerto 3000, asegúrate de estar en otra terminal con el `port-forward` en ejecución y verifica que el Pod esté listo con `kubectl get pods -n monitoring -l app.kubernetes.io/name=grafana`.
 
    - Prometheus:
      ```bash
