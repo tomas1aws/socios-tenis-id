@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: socios-tenis-monitor
+  namespace: socios-tenis   # 👈 Ahora en el mismo namespace que tu app
+  labels:
+    release: kube-prometheus
+spec:
+  selector:
+    matchLabels:
+      app: socios-tenis
+  namespaceSelector:
+    matchNames:
+      - socios-tenis
+  endpoints:
+    - port: http
+      interval: 15s

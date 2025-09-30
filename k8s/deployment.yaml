@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: socios-tenis-deployment
+  namespace: socios-tenis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: socios-tenis
+  template:
+    metadata:
+      labels:
+        app: socios-tenis
+    spec:
+      containers:
+        - name: socios-tenis-container
+          image: tomas1aws/socios-tenis-id:latest   # <--- siempre la última imagen
+          ports:
+            - containerPort: 8000
